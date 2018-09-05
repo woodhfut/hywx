@@ -18,6 +18,8 @@ scount = 0
 with open(r'd:\Project\Python\test\名单.txt','r', encoding='utf-8') as f:
     for name in f:
         name = name.strip()
+        if not len(name):
+            continue
         try:
             print('准备发给 {}'.format(name))
             friends = bot.friends().search(name)
