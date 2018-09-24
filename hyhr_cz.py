@@ -8,7 +8,10 @@ import sys
 bot = Bot(cache_path=True)
 bot.enable_puid('hyhr_wxpy_puid.pkl')
 
-message = ''
+message = None
+baseroot = r'E:\寰宇\催帐'
+imgs = [f for f in os.listdir(baseroot) if os.path.isfile(os.path.join(baseroot, f)) and (f.lower().endswith('.png') or f.lower().endswith('.jpg'))]
+
 with open(r'd:\Project\Python\test\信息.txt', 'r', encoding='utf-8') as msg:
     message = msg.read()
 
@@ -27,8 +30,14 @@ with open(r'd:\Project\Python\test\名单.txt','r', encoding='utf-8') as f:
             for friend in friends:
                 #print(friend.name)
                 if friend.nick_name == name or friend.name == name:
-                    friend.send(message.format(name))
-                    print('成功发消息给{}'.format(name))
+                    if message:
+                        friend.send(message)
+                        print('成功发消息给{}'.format(name))
+                        
+                    for f in imgs:
+                        friend.send_image(os.path.join(baseroot, f))
+                        print('成功发图片{}给{}'.format(f,name))
+                    
                     found = True
                     scount += 1
                     break
