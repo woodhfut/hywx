@@ -1,0 +1,6 @@
+
+*.pyc
+build/*
+dist/*
+HYHR.spec
+*.pkl
