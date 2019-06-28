@@ -71,7 +71,7 @@ with open(namesFile, 'r', encoding='utf-8') as f:
                 if noFoundDlg.exists():
                     noFoundDlg.close()
                     failed.append(name)
-                    print('{} 不存在'.format(name))
+                    print('{} 不存在,请手工确认'.format(name))
                     time.sleep(1)
                     continue
                 
