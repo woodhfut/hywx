@@ -60,13 +60,24 @@ with open(namesFile, 'r', encoding='utf-8') as f:
         if not validData:
             continue
         try:
-            wrapper.click_input(coords=(100,30))
+            width =100
+            height = 30
+            retry = 5
+            
+            while retry> 0:
+                wrapper.click_input(coords=(width,height))
+                if dlg['3'].exists(timeout=2):
+                    break
+                else:
+                    retry-=1
+                    width+=10
+                    height+=10
             #time.sleep(0.5)
             if dlg['3'].exists(timeout=2):
                 dlg['3'].type_keys(name)
                 #dlg['3'].type_keys('{ENTER 1}')
                 time.sleep(0.5)
-                wrapper.click_input(coords=(100,100))
+                wrapper.click_input(coords=(width,height+70))
                 noFoundDlg = Desktop(backend='uia').window(title='WeChat', class_name='FTSMsgSearchWnd')
                 #time.sleep(0.5)
                 if noFoundDlg.exists(timeout=2):
