@@ -21,6 +21,7 @@ wrapper = dlg.wrapper_object()
 message = None
 with open(msgFile, 'r', encoding='utf-8') as msg:
     message = msg.read()
+    print(message)
 
 if not len(message):
     print('消息为空，退出！')
@@ -60,15 +61,15 @@ with open(namesFile, 'r', encoding='utf-8') as f:
             continue
         try:
             wrapper.click_input(coords=(100,30))
-            time.sleep(0.5)
-            if dlg['3'].exists():
+            #time.sleep(0.5)
+            if dlg['3'].exists(timeout=2):
                 dlg['3'].type_keys(name)
                 #dlg['3'].type_keys('{ENTER 1}')
                 time.sleep(0.5)
                 wrapper.click_input(coords=(100,100))
                 noFoundDlg = Desktop(backend='uia').window(title='WeChat', class_name='FTSMsgSearchWnd')
-                time.sleep(0.5)
-                if noFoundDlg.exists():
+                #time.sleep(0.5)
+                if noFoundDlg.exists(timeout=2):
                     noFoundDlg.close()
                     failed.append(name)
                     print('{} 不存在,请手工确认'.format(name))
@@ -76,13 +77,13 @@ with open(namesFile, 'r', encoding='utf-8') as f:
                     continue
                 
                 if len(data) == 0:
-                    dlg.type_keys(message)
+                    dlg.type_keys(message, with_spaces=True)
                 else:
                     if '{}' in message:
-                        dlg.type_keys(message.format(*data))
+                        dlg.type_keys(message.format(*data), with_spaces=True)
                     else:
-                        dlg.type_keys(message)
-                dlg.type_keys('{ENTER 1}')
+                        dlg.type_keys(message, with_spaces=True)
+                dlg.type_keys('%{s}')
                 print('发送消息给{}成功'.format(name))
                 scount+=1
             else:
@@ -92,7 +93,7 @@ with open(namesFile, 'r', encoding='utf-8') as f:
             time.sleep(1)
         except Exception as ex:
             failed.append(name)
-            print('发送消息给{}失败，手工重发'.format(name))
+            print('发送消息给{}失败，手工重发.err={}'.format(name, ex))
 
 print('总共发送成功{}人.'.format(scount))
 if len(failed) > 0:
