@@ -17,7 +17,18 @@ app = Application(backend='uia').start(r'C:\Program Files (x86)\Tencent\WeChat\W
 dlg = Desktop(backend='uia').window(title='WeChat', class_name='WeChatMainWndForPC')
 dlg.set_focus()
 wrapper = dlg.wrapper_object()
+width =100
+height = 30
+retry = 5
 
+while retry> 0:
+    wrapper.click_input(coords=(width,height))
+    if dlg['3'].exists(timeout=2):
+        break
+    else:
+        retry-=1
+        width+=10
+        height+=10
 message = None
 with open(msgFile, 'r', encoding='utf-8') as msg:
     message = msg.read()
@@ -60,18 +71,7 @@ with open(namesFile, 'r', encoding='utf-8') as f:
         if not validData:
             continue
         try:
-            width =100
-            height = 30
-            retry = 5
-            
-            while retry> 0:
-                wrapper.click_input(coords=(width,height))
-                if dlg['3'].exists(timeout=2):
-                    break
-                else:
-                    retry-=1
-                    width+=10
-                    height+=10
+            wrapper.click_input(coords=(width,height))
             #time.sleep(0.5)
             if dlg['3'].exists(timeout=2):
                 dlg['3'].type_keys(name)
