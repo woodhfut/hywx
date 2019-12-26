@@ -13,9 +13,12 @@ failedNamesFile = os.path.join(root_dir, '发送失败人员名单.txt')
 
 #app = Application(backend='uia').start(r'C:\Program Files\WindowsApps\TencentWeChatLimited.forWindows10_2.6.3.0_x86__sdtnhv12zgd7a\WeChatStore\WeChatStore.exe')
 app = Application(backend='uia').start(r'C:\Program Files (x86)\Tencent\WeChat\WeChat.exe')
-
-dlg = Desktop(backend='uia').window(title='WeChat', class_name='WeChatMainWndForPC')
-dlg.set_focus()
+try:
+    dlg = Desktop(backend='uia').window(title='WeChat', class_name='WeChatMainWndForPC')
+    dlg.set_focus()
+except:
+    dlg = Desktop(backend='uia').window(title='微信', class_name='WeChatMainWndForPC')
+    dlg.set_focus()
 wrapper = dlg.wrapper_object()
 width =100
 height = 30
@@ -97,6 +100,20 @@ with open(namesFile, 'r', encoding='utf-8') as f:
                 dlg.type_keys('%{s}')
                 print('发送消息给{}成功'.format(name))
                 scount+=1
+
+
+                #try to send file
+                wrapper.click_input(coords=(width+285, height+525))
+                if dlg['open'].exists(timeout=2):
+                    print('good to find open dialog.')
+                    dlg['open'].type_keys('%{n}')
+                    time.sleep(0.5)
+                    dlg['open'].type_keys(r'C:\Projects\wxpy_cz\信息.txt')
+                    time.sleep(0.5)
+                    dlg['open'].type_keys('{ENTER 1}')
+
+                    dlg.type_keys('%{s}')
+                
             else:
                 print('未发现搜索框，出错啦.')
                 failed.append(name)
