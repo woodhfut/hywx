@@ -1,0 +1,1 @@
+pyinstaller --clean -F -w -n Xiaofu --hidden-import wx.adv --hidden-import wx.html --hidden-import wx.xml -i xiaofu.ico hyhr_ui.py
