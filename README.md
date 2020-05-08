@@ -3,11 +3,11 @@ send message to multiple wechat friends in script based on wxpy or wechat window
 
 
 #hyhr_cz.py
-This is based on wxpy, and sees webapi is shut down by Tencent, so this might not be able to use any more. 
+This is based on wxpy, and sees webapi has too much limitation by Tencent, so this is not stable. 
 
 
 #hycz_uia.py
-This is currently good to use, simulating manual operation in windows desktop wechat app. Slow but usable.
+This is currently good to use, simulating manual operation in windows desktop wechat app. Slow but stable.
 support send message and file.
 
 
